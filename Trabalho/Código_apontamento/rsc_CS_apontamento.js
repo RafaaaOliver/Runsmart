@@ -9,7 +9,6 @@ define(['N/currentRecord','N/search', 'N/log', 'N/ui/dialog'], function(record, 
  * true (deixa salvar)
  * false (não deixa salvar)
  */
-
     function saveRecord(ctx){ // função que será executada ao salvar
         try{
             var apontamento = ctx.currentRecord
