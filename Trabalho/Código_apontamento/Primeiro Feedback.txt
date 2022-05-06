@@ -1,0 +1,18 @@
+configurações de horas:
+- definir um padrão de 30 minutos no apontamento de horas
+
+0,5  -- 30 minutos
+1.0  -- 1 hora
+1,5  -- 1 hora e 30 minutos
+2,0  -- 2 horas
+
+chamado: (o cliente verá as informações do chamado ou poderá ser oculto)
+- criar campo de texto longo para justificar o atraso ou colocar informações sobre o atendimento do chamado 
+- só poderão ser lançadas no caso quando o chamado estiver fechado
+- deixar disponível para o cliente apenas os campos: horas trabalhadas e horas alocadas
+- fazer conexão com outro tipo de registro para listar as horas apontadas
+- por último fazer conexão com o caso para
+
+possibilidades:
+- fazer uma API que conecte os dados do cron com o netSuite
+
