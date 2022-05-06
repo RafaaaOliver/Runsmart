@@ -16,7 +16,7 @@ define(['N/ui/serverWidget'], function(ui){
             source: 'customrecord_contrato_aula4_rafael'
         })
         form.addField({
-            label: 'parcelamento',
+            label: 'Número de parcelas',
             type: ui.FieldType.SELECT,
             id:'custpage_parcelamento',
             source: 'customlist_contrato_numeroparcelas_raf'
@@ -33,6 +33,7 @@ define(['N/ui/serverWidget'], function(ui){
             functionName: 'reparcelar'
         })
         ctx.response.writePage(form);
+        form.clientScriptModulePath = './rsc_cs_contratos_Rafael.js'
     }
 
     return{

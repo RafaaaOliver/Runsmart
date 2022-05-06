@@ -3,6 +3,18 @@
  * @NScriptType UserEventScript
  */
 define(['N/currentRecord', 'N/log', 'N/search'], function(currentRecord, log, search){
+
+    function beforeLoad(ctx){
+        var page = ctx.newRecord;
+        var form = ctx.form;
+        form.addButton({
+            id: 'custpage_Reparcelamento_contrato',
+            label: 'Reparcelamento',
+            functionName: 'abrirReparcelar'
+        });
+        form.clientScriptModulePath = './rsc_cs_contratos_Rafael.js'
+        log.debug('Carreguei o suiteLet')
+    }
     
     function beforeSubmit(ctx){
     
@@ -116,6 +128,7 @@ define(['N/currentRecord', 'N/log', 'N/search'], function(currentRecord, log, se
     }
 
     return{
+        beforeLoad: beforeLoad,
         beforeSubmit: beforeSubmit
     }
 })

@@ -3,7 +3,7 @@
  * @NScriptType UserEventScript
  */
 
- define(['N/currentRecord', 'N/log', 'N/search'],
+define(['N/currentRecord', 'N/log', 'N/search'],
     function(currentRecord, log, search){
             function beforeLoad(ctx){
                 var page = ctx.newRecord;
