@@ -27,6 +27,11 @@ define(['N/ui/serverWidget'], function(ui){
             id: 'custpage_juros',
             source: 'customrecord_jurosaplicados_aula4_rafael'
         })
+        form.addField({
+            label: 'Resumo',
+            type: ui.FieldType.LONGTEXT,
+            id: 'custpage_textogrande'
+        })
         form.addButton({
             id: 'cuspage_salvar',
             label: 'Salvar',
