@@ -28,7 +28,7 @@ define(['N/ui/serverWidget'], function(ui){
             source: 'customrecord_jurosaplicados_aula4_rafael'
         })
         form.addField({
-            label: 'Resumo',
+            label: 'Resumo do reparcelamento',
             type: ui.FieldType.LONGTEXT,
             id: 'custpage_textogrande'
         })
