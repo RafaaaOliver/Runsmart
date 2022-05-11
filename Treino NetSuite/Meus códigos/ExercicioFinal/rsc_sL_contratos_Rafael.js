@@ -31,7 +31,7 @@ define(['N/ui/serverWidget'], function(ui){
             label: 'Resumo do reparcelamento',
             type: ui.FieldType.LONGTEXT,
             id: 'custpage_textogrande'
-        })
+        }).updateDisplayType({displayType: ui.FieldDisplayType.DISABLED})
         form.addButton({
             id: 'cuspage_salvar',
             label: 'Salvar',

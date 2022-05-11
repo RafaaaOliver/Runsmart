@@ -12,6 +12,10 @@ define(['N/currentRecord', 'N/log', 'N/search', 'N/ui/serverWidget'], function(c
             form.getField({
                 id: 'custrecord_contrato_principal_rafael'
             }).updateDisplayType({displayType: ui.FieldDisplayType.DISABLED})
+            form.getField({
+                id: 'custrecord_valor_aula4_rafael'
+            }).updateDisplayType({displayType: ui.FieldDisplayType.DISABLED})
+
         if(!contrato)
             form.addButton({
                 id: 'custpage_Reparcelamento_contrato',
