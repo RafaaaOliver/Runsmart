@@ -2,22 +2,28 @@
  * @NApiVersion 2.0
  * @NScriptType UserEventScript
  */
-define(['N/currentRecord', 'N/log', 'N/search'], function(currentRecord, log, search){
+define(['N/currentRecord', 'N/log', 'N/search', 'N/ui/serverWidget'], function(currentRecord, log, search, ui){
 
     function beforeLoad(ctx){
         var page = ctx.newRecord;
         var form = ctx.form;
-        form.addButton({
-            id: 'custpage_Reparcelamento_contrato',
-            label: 'Reparcelamento',
-            functionName: 'abrirReparcelar'
-        });
-        form.clientScriptModulePath = './rsc_cs_contratos_Rafael.js'
-        log.debug('Carreguei o suiteLet')
+        var contrato = page.getValue('custrecord_contrato_principal_rafael')
+        if(ctx.type != ctx.UserEventType.CREATE){       
+            form.getField({
+                id: 'custrecord_contrato_principal_rafael'
+            }).updateDisplayType({displayType: ui.FieldDisplayType.DISABLED})
+        if(!contrato)
+            form.addButton({
+                id: 'custpage_Reparcelamento_contrato',
+                label: 'Reparcelamento',
+                functionName: 'abrirReparcelar'
+            });
+            form.clientScriptModulePath = './rsc_cs_contratos_Rafael.js'
+            log.debug('Carreguei o suiteLet')
+        }
     }
     
     function beforeSubmit(ctx){
-    
         var page = ctx.newRecord;
         var pageId = page.id
         var fieldId = page.getValue('custrecord_contrato_principal_rafael')
@@ -58,10 +64,10 @@ define(['N/currentRecord', 'N/log', 'N/search'], function(currentRecord, log, se
                 var somaFinal = somaValor + fieldValor
                 log.debug('Soma final: ', somaFinal)
 
-                if(fieldValor >= contratoValor){
+                if(fieldValor > contratoValor){
                     throw Error('Você ultrapassou o valor do contrato!')
                 }
-                else if(somaFinal >= contratoValor){
+                else if(somaFinal > contratoValor){
                     throw Error('Você ultrapassou o valor do contrato!')                       
                 }
                 else{

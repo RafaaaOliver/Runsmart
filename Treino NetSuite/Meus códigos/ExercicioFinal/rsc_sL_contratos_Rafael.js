@@ -37,6 +37,11 @@ define(['N/ui/serverWidget'], function(ui){
             label: 'Salvar',
             functionName: 'reparcelar'
         })
+        form.addButton({
+            id: 'cuspage_resumo',
+            label: 'Atualizar resumo',
+            functionName: 'resumo'
+        })
         ctx.response.writePage(form);
         form.clientScriptModulePath = './rsc_cs_contratos_Rafael.js'
     }
