@@ -117,18 +117,23 @@ define (['N/currentRecord', 'N/search', 'N/log', 'N/url', 'N/record'], function(
                 return true
             })
             console.log("ListaDelete: ", listaDelete)
-            var contadora = jurosColocado
-            var formatado = parcelasValor.toFixed(2)
+            var formatado = parcelasValor.toString()
             for (var i = 0; i < parcelas; i++){
-                var apoio = 0
-                if(contadora >= formatado){
-                    apoio = formatado
-                    contadora -= formatado
-                }
-                else{
-                    apoio = contadora
-                }
-                console.log('desespero: ', apoio)
+
+                var divisao = formatado.indexOf('.')
+                var aftVirg = formatado.slice(0 , divisao)
+                var posVirg = formatado.slice(divisao, divisao + 3)
+                var concat = aftVirg + posVirg
+                var ValorFinalDaParcela = Number(concat)
+
+                console.log('número como string: ', formatado, 'tipo: ', typeof formatado)
+                console.log('indice do ponto: ', divisao)
+                console.log('conteúdo antes da a virgula:', aftVirg)
+                console.log('conteúdo aós a virgula:', posVirg)
+                console.log('Valor final da parcela: ', ValorFinalDaParcela, typeof ValorFinalDaParcela)
+                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+                console.log('Criando a parcela: ', i, '...')
+                console.log('Valor final da parcela: ', ValorFinalDaParcela)
                 var data = new Date()
                 var parcelaName = 'parcela' + (i + 1)
                 var registro = record.create({
@@ -137,10 +142,11 @@ define (['N/currentRecord', 'N/search', 'N/log', 'N/url', 'N/record'], function(
                 registro.setValue('name', parcelaName)
                 registro.setValue('custrecord_contrato_principal_rafael', contrato)
                 registro.setValue('custrecord_data_aula4_rafael', data )
-                registro.setValue('custrecord_valor_aula4_rafael', apoio)
+                registro.setValue('custrecord_valor_aula4_rafael', ValorFinalDaParcela)
                 registro.save({ignoreMandatoryFields: true})
-                console.log('criei o registro')
-                
+                console.log('Parcela criada com sucesso!')
+                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+
             }
 
             var paginaRegistro = url.resolveRecord({
@@ -168,7 +174,6 @@ define (['N/currentRecord', 'N/search', 'N/log', 'N/url', 'N/record'], function(
                 columns: ['custrecord_valor_aula4_rafael']
             })
             var contratoValor = contdate.custrecord_valor_aula4_rafael
-
             var listaDeJuros = []
             var buscaHistJuros = search.create({
                 type:'customrecord_historicojuros_aula4_rafael',
@@ -197,12 +202,25 @@ define (['N/currentRecord', 'N/search', 'N/log', 'N/url', 'N/record'], function(
                 }
             }
             var jurosColocado = Number(contratoValor) + (Number(contratoValor) * (Number(juros) / 100))
-            var parcelasValor = Math.floor(Number(jurosColocado) / Number(parcelas))
-            parcelasValor = parcelasValor.toFixed(2)
+            var parcelasValor = Number(jurosColocado) / Number(parcelas)
             jurosColocado = jurosColocado.toFixed(2)
+            formatado = parcelasValor.toString()
+        
+            var divisao = formatado.indexOf('.')
+                var aftVirg = formatado.slice(0 , divisao)
+                var posVirg = formatado.slice(divisao, divisao + 3)
+                var concat = aftVirg + posVirg
+                var ValorFinalDaParcela = Number(concat)
+
+                console.log('número como string: ', formatado, 'tipo: ', typeof formatado)
+                console.log('indice do ponto: ', divisao)
+                console.log('conteúdo antes da a virgula:', aftVirg)
+                console.log('conteúdo aós a virgula:', posVirg)
+                console.log('Valor final da parcela: ', ValorFinalDaParcela, typeof ValorFinalDaParcela)
+                console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
 
             if (contrato && jurosAplicado && parcelas){
-                campoTexto = 'Valor final do contrato: ' +  jurosColocado + ' // Parcelas: ' + parcelas + 'x de ' + parcelasValor 
+                campoTexto = 'Valor final do contrato: ' +  jurosColocado + 'R$' + ' // Parcelas: ' + parcelas + 'x de ' + ValorFinalDaParcela + 'R$' 
                 page.setValue({
                     fieldId: 'custpage_textogrande',
                     value: campoTexto  
