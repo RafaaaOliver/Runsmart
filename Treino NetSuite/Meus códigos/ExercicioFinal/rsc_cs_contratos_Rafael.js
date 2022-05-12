@@ -82,7 +82,7 @@ define (['N/currentRecord', 'N/search', 'N/log', 'N/url', 'N/record'], function(
             console.log('Contrato com juros: ', jurosColocado)
             console.log('Número de parcelas', parcelas)
             
-            var parcelasValor = Number(contratoValor) / Number(parcelas)
+            var parcelasValor = Number(jurosColocado) / Number(parcelas)
             console.log('Valor das parcelas: ', parcelasValor)
 
             var listaDelete = []
