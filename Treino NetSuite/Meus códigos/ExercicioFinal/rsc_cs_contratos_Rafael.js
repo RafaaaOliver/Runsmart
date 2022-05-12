@@ -7,34 +7,19 @@ define (['N/currentRecord', 'N/search', 'N/log', 'N/url', 'N/record'], function(
 
     // >>>>>>>>>>>>>> funções do suitelet <<<<<<<<<<<<<<<<<<<<<<
 
-    function pageInit(){
-        return true
+    function pageInit(ctx){
+        page = ctx.currentRecord;
+        var campoId = page.getValue('custpage_contrato')
+
+        
+        // page.setValue({
+        //     fieldId: 'custpage_contrato',
+        //     value: field
+        // })
+        
     }
 
-    function abrirReparcelar(){ // função que abrirá o suitelet ao clickar no botão parcelamento
-        var page = currentRecord.get();
-        var field = page.id
-        var lista = []
-        var busca = search.create({
-            type: 'customrecord_contrato_aula4_rafael',
-            filters: [
-                'custrecord_contrato_principal_rafael', 'IS', field
-            ]
-        }).run().each(function(resultado){
-            lista.push(resultado)
-        })
-        if (lista.length != 0){
-            var suiteletURL = url.resolveScript({
-                scriptId: 'customscript_rsc_sl_contratos_rafael',
-                deploymentId: 'customdeploy_rsc_sl_contratos_rafael'
-            });
-            window.location.replace(suiteletURL)
-        }
-        else{
-            alert('Ops... parece que você aida não tem parcelas com esse registro, então não é necessário reparcelar!')
-        }
-    }
-
+    
     function reparcelar(){ // função de salvar no suitelet
         try{
             var page = currentRecord.get();
@@ -235,7 +220,6 @@ define (['N/currentRecord', 'N/search', 'N/log', 'N/url', 'N/record'], function(
     }
     return{
         pageInit: pageInit,
-        abrirReparcelar: abrirReparcelar,
         reparcelar: reparcelar,
         resumo: resumo
     }

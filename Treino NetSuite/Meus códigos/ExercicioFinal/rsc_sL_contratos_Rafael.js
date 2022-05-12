@@ -3,18 +3,32 @@
  * @NApiVersion 2.0
  * @Author Rafael Oliveira
  */
-define(['N/ui/serverWidget'], function(ui){
+define(['N/ui/serverWidget', 'N/log'], function(ui, log){
+
+    /**
+     *  
+     * @param {Object} ctx 
+     * @param {ServerRequest} ctx.request
+     * @param {ServerRequest} ctx.response
+     * @since 2015.2
+     */
 
     function onRequest(ctx){
+        var parameter = ctx.request.parameters;
+        // var field = parameter.field
+        log.debug('foi: ', parameter.field)
         var form = ui.createForm({
             title: 'Reparcelamento Contratos'
         });
-        form.addField({
+
+        var contrato = form.addField({
             label: 'Contrato',
             type: ui.FieldType.SELECT,
             id: 'custpage_contrato',
             source: 'customrecord_contrato_aula4_rafael'
-        })
+        }).updateDisplayType({displayType: ui.FieldDisplayType.INLINE})      
+        contrato.defaultValue = parameter.field
+
         form.addField({
             label: 'Número de parcelas',
             type: ui.FieldType.SELECT,

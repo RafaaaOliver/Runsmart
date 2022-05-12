@@ -22,7 +22,7 @@ define(['N/currentRecord', 'N/log', 'N/search', 'N/ui/serverWidget'], function(c
                 label: 'Reparcelamento',
                 functionName: 'abrirReparcelar'
             });
-            form.clientScriptModulePath = './rsc_cs_contratos_Rafael.js'
+            form.clientScriptModulePath = './rsc_cs_botaoContratos_Rafael.js'
             log.debug('Carreguei o suiteLet')
         }
     }
