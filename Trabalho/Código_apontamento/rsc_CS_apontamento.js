@@ -10,23 +10,34 @@ define(['N/log', 'N/ui/dialog'], function(log, dialog){
      * false (não deixa salvar)
      */
         function saveRecord(ctx){ // função que será executada ao salvar
+            log.debug('ctx: ', ctx)
+            log.debug('Type: ', ctx.currentRecord.type)
+            var type = ctx.currentRecord.type
+            var registro = ctx.currentRecord
             try{
-                var apontamento = ctx.currentRecord
-                var horasTotaisTrabalhadas = apontamento.getValue('custrecord_rsc_horasatuadas_rafael')  // pega o valor do campo Horas atuadas
-                var horasFaturaveis = apontamento.getValue('custrecord_apontamento_alocadascampo') 
-                var textFaturaveis = 'Horas faturáveis'
-                var textTotais = 'Horas totais trabalhadas'
+                if (type == 'customrecord1452'){
+                    var horasTotaisTrabalhadas = registro.getValue('custrecord_rsc_horasatuadas_rafael')  // pega o valor do campo Horas atuadas
+                    var horasFaturaveis = registro.getValue('custrecord_apontamento_alocadascampo') 
+                    var textFaturaveis = 'Horas faturáveis'
+                    var textTotais = 'Horas totais trabalhadas'
 
-                var returnando1 = requisisoes(horasTotaisTrabalhadas, textTotais)
-                var returnando2 = requisisoes(horasFaturaveis, textFaturaveis)
-                var retorno; 
+                    var retornando1 = requisisoes(horasTotaisTrabalhadas, textTotais)
+                    var retornando2 = requisisoes(horasFaturaveis, textFaturaveis)
 
-                if (returnando1 == true && returnando2 == true){
-                    retorno = true
-                }else{
-                    retorno = false
+                    if (retornando1 == true && retornando2 == true){
+                        return true
+                    }else{
+                        return false
+                    }
                 }
-                return retorno
+                else{
+                    var horasFaturaveisCaso = registro.getValue('custevent_horas_faturaveis')
+                    var textFaturaveis = 'Horas faturáveis'
+                    var retornando = requisisoes(horasFaturaveisCaso, textFaturaveis)
+                    
+                    return retornando
+                    
+                }
             }catch(e){ // recebe um erro 
                 log.debug('Erro', e)  // mostra o erro
             }

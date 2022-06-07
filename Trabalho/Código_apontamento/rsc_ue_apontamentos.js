@@ -47,6 +47,10 @@ define(['N/search', 'N/record', 'N/log'], function(search, record, log){
             log.debug('Erro', e )
             }
         }
+
+    function beforeSubmit(ctx) {
+        
+    }
     return{
         beforeLoad: beforeLoad
     }
