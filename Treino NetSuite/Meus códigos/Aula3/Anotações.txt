@@ -1,9 +1,0 @@
-map:
-
-- primeiro usamos um getInputData para pegar os dados com ou sem filtro
-
-- depois usamos o map que o ctx dele é o getInputData
-
-
-
-outras funções:
