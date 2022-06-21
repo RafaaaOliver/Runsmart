@@ -1,0 +1,11 @@
+1° problema:
+Retirar a função pageInit que estava sendo utilizada e dando erro no carregamento do registro.
+
+2° problema:
+o campo e o filtro estavam corretos, porém é necessário definir o cargo, categoria e região no item para que ele apareça na sugestão.
+
+Obs: o item estava sem a região!
+
+3° problema: 
+
+O campo "Periodo" estava oculto de forma funcional no netsuite e já foi reativo.

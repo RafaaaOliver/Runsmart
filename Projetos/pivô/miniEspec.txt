@@ -1,0 +1,6 @@
+Problema:
+- Não era possível passar a lista de categorias por meio da importação CSV netsuite.
+
+
+Solução:
+- Criar um script para transferir uma lista de categorias no ambiente de produção por meio de CSV.
