@@ -1,6 +1,7 @@
 /**
  *@NApiVersion 2.x
  *@NScriptType UserEventScript
+ *@Authors Gabriel Scarpelini & Rafael Oliveira
  */
 define([], function() {
 
