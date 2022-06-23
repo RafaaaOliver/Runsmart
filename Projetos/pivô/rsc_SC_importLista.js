@@ -1,12 +1,12 @@
 /**
  *@NApiVersion 2.x
- *@NScriptType ScheduledScript
+ *@NScriptType !ScheduledScript
  */
 define(['N/file', 'N/log', 'N/record'], function(file, log, record) {
 
     function execute(ctx) {
         var arquivo = file.load({
-            id: 61
+            id: 65
         });     
         
         arquivo.encoding = file.Encoding.UTF_8;        
@@ -24,14 +24,21 @@ define(['N/file', 'N/log', 'N/record'], function(file, log, record) {
         })
         log.debug('lista', lista)
 
-        for (i in lista){
         var registroLista = record.create({
-            type: 'customlist_listatestecsv',
+            type: 'customlist_rsc_listacategoriasscript',
             isDynamic: true
         })
-        registroLista.setValue('name', lista[i])
+        registroLista.setValue('name', lista[0])
         registroLista.save({ignoreMandatoryFields: true})
-        }
+
+        // for (i in lista){
+        // var registroLista = record.create({
+        //     type: 'customlist_rsc_listacategoriasscript',
+        //     isDynamic: true
+        // })
+        // registroLista.setValue('name', lista[i])
+        // registroLista.save({ignoreMandatoryFields: true})
+        // }
     }
     return {
         execute: execute
