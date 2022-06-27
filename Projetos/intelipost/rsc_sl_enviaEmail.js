@@ -15,7 +15,6 @@ define(['N/email', 'N/render'], function(email, render) {
             var template = render.mergeEmail({
                 templateId: 88
             })
-            
             email.send({
                 author: senderId,
                 recipients: recipientEmail,
