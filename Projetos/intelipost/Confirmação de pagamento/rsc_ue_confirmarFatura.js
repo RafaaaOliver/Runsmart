@@ -10,7 +10,7 @@ define(['N/search', "N/record"], function(search, record) {
         var pageId = page.id
 
         var chamabusca = buscaParcelaQuitacao(pageId)
-        var chamaconfirmaFatura = confirmarFatura(chamabusca, pageId)
+        confirmarFatura(chamabusca, pageId)
 
 
         function buscaParcelaQuitacao(pageId) {
