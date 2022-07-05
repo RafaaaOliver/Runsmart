@@ -1,0 +1,15 @@
+registro: Ajuste de Planilha de Estoque
+
+assim que o registro for criado, setar o valor "pendente de aprovação" no campo status
+
+deverá ser criado dois botões: 
+- Aprovado: seta o valor do status como "aprovado" e atualiza a página
+- Rejeitado: seta o valor do status como "rejeitado" e atualiza a página 
+
+os botões devem aparecer para funcionários específicos que serão categorizados pela localidade:
+
+-Localidade Miranda: Celso Filho (celso.filho@kovi.com.br)
+-Localidade Nações: Filipe Reis (filipe.reis@kovi.com.br)
+-Localidade Campus: Paulo Baptista (paulo.baptista@kovi.com.br)
+
+qualquer outro funcionário não pode fazer edição nenhuma na transação (deixar apenas vizualização)
