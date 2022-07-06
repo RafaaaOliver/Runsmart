@@ -9,6 +9,7 @@ define(['N/record', 'N/ui/serverWidget', 'N/search', 'N/url', 'N/runtime', 'N/er
         var usuario = runtime.getCurrentUser();
         var email = usuario.email
         var localidadeUser;
+        log.debug('usuário', usuario)
 
         if(email != 'celso.filho@kovi.com.br' && email != 'filipe.reis@kovi.com.br' && email != 'paulo.baptista@kovi.com.br' && email != 'rafael.santos@runsmart.cloud') {
             throw "Você não tem permissão para fazer isso."
@@ -16,15 +17,15 @@ define(['N/record', 'N/ui/serverWidget', 'N/search', 'N/url', 'N/runtime', 'N/er
 
         switch (email) {
             case 'celso.filho@kovi.com.br':
-                localidadeUser = 20
+                localidadeUser = 20 // miranda
                 break;
 
             case 'filipe.reis@kovi.com.br':
-                localidadeUser = 24
+                localidadeUser = 24 // nações
                 break;
 
             case 'paulo.baptista@kovi.com.br':
-                localidadeUser = 27
+                localidadeUser = 27 // campus
                 break;
 
             case 'rafael.santos@runsmart.cloud':
