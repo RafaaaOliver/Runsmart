@@ -1,0 +1,13 @@
+o suitelet foi criado para fazer um controle de status no registro "planilha de estoque".
+
+Obs: 
+- Não é possível implementar scripts e workflow no registro, então o fluxo será controlado por um suitlet (formulário).
+- foi solicitado que o controle de usuário seja feito por E-mail, porém é mais seguro fazer por ID, pois o E-mail pode mudar, mas o ID não.
+
+
+Usuários que possuem permissão e suas respectivas subsidiárias:
+- Celso Filho (celso.filho@kovi.com.br): Localidade Miranda
+- Filipe Reis (filipe.reis@kovi.com.br): Localidade Nações
+- Paulo Baptista (paulo.baptista@kovi.com.br): Localidade Campus
+
+O formulário mostrará todas as planilhas de estoque que estã com o status: "Pendente de Aprovação".
