@@ -1,6 +1,7 @@
 /**
  *@NApiVersion 2.x
  *@NScriptType Suitelet
+ *@Author Rafael Oliveira Santos
  */
 define(['N/record', 'N/ui/serverWidget', 'N/search', 'N/url', 'N/runtime', 'N/error'], function(record, ui, search, url, runtime, error) {
 

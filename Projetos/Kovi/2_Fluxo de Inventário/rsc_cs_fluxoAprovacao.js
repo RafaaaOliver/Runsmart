@@ -1,11 +1,12 @@
 /**
  *@NApiVersion 2.x
  *@NScriptType ClientScript
+ *@Author Rafael Oliveira Santos
  */
 define(['N/log', 'N/record', 'N/currentRecord', 'N/ui/message'], function(log, record, currentRecord, message) {
 
     function pageInit(ctx) {
-        console.log('rodei')
+        
     }
 
     function selecionar(){
