@@ -1,0 +1,3 @@
+fazer uma busca na parcela retornando o id da fatura
+fazer uma busca nas faturas que tem o status: NFS-e ou NFE e pegar o campo da nota fiscal
+jogar em uma variável e colocar no corpo do E-mail.
