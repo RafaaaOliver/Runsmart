@@ -2,9 +2,36 @@
  *@NApiVersion 2.x
  *@NScriptType Suitelet
  */
-define(['N/record', 'N/ui/serverWidget', 'N/search', 'N/url'], function(record, ui, search, url) {
+define(['N/record', 'N/ui/serverWidget', 'N/search', 'N/url', 'N/runtime', 'N/error'], function(record, ui, search, url, runtime, error) {
 
     function onRequest(ctx) {
+
+        var usuario = runtime.getCurrentUser();
+        var email = usuario.email
+        var localidadeUser;
+
+        if(email != 'celso.filho@kovi.com.br' && email != 'filipe.reis@kovi.com.br' && email != 'paulo.baptista@kovi.com.br' && email != 'rafael.santos@runsmart.cloud') {
+            throw "Você não tem permissão para fazer isso."
+        }
+
+        switch (email) {
+            case 'celso.filho@kovi.com.br':
+                localidadeUser = 20
+                break;
+
+            case 'filipe.reis@kovi.com.br':
+                localidadeUser = 24
+                break;
+
+            case 'paulo.baptista@kovi.com.br':
+                localidadeUser = 27
+                break;
+
+            case 'rafael.santos@runsmart.cloud':
+                localidadeUser = 20
+                break;
+        }
+        log.debug('localidadeUser', localidadeUser)
         const request = ctx.request;
         const method = request.method;
         const response = ctx.response;
@@ -12,10 +39,15 @@ define(['N/record', 'N/ui/serverWidget', 'N/search', 'N/url'], function(record, 
         var form = ui.createForm({
             title: "Fluxo de planilha de estoque"
         })
-        var marcaTudo = sublist.addButton({
-            id: 'custpage_marcaparcela',
-            label: 'Marcar Tudo',
-            functionName: 'selecionar'
+        var aprovadobutton = form.addButton({
+            id: 'custpage_aprovado',
+            label: 'Aprovar',
+            functionName: 'aprovado'
+        })
+        var rejeitadobutton = form.addButton({
+            id: 'custpage_rejeitado',
+            label: 'Rejeitar',
+            functionName: 'rejeitado'
         })
         var json = form.addField({
             id: 'custpage_json',
@@ -49,6 +81,13 @@ define(['N/record', 'N/ui/serverWidget', 'N/search', 'N/url'], function(record, 
             label: 'Selecionar'
         });
 
+        var link = sublist.addField({
+            id: 'custpage_planilhalink',
+            type: ui.FieldType.URL,
+            // source: 'inventoryworksheet',
+            label: 'Link'
+        })
+
         var sub = sublist.addField({
             id: 'custpage_planilha',
             type: ui.FieldType.SELECT,
@@ -56,12 +95,30 @@ define(['N/record', 'N/ui/serverWidget', 'N/search', 'N/url'], function(record, 
             label: 'Planilha'
         }).updateDisplayType({displayType: ui.FieldDisplayType.INLINE})
 
-        var link = sublist.addField({
-            id: 'custpage_planilhalink',
-            type: ui.FieldType.URL,
-            // source: 'inventoryworksheet',
-            label: 'Link'
-        })
+        var contaAjuste = sublist.addField({
+            id: 'custpage_contaajuste',
+            type: ui.FieldType.SELECT,
+            source: 'account',
+            label: 'CONTA DE AJUSTE'
+        }).updateDisplayType({displayType: ui.FieldDisplayType.INLINE})
+
+        var empresa = sublist.addField({
+            id: 'custpage_empresa',
+            type: ui.FieldType.TEXT,
+            label: 'Empresa'
+        }).updateDisplayType({displayType: ui.FieldDisplayType.INLINE})
+
+        var localidade = sublist.addField({
+            id: 'custpage_localidade',
+            type: ui.FieldType.TEXT,
+            label: 'localidade'
+        }).updateDisplayType({displayType: ui.FieldDisplayType.INLINE})
+
+        var status = sublist.addField({
+            id: 'custpage_status',
+            type: ui.FieldType.TEXT,
+            label: 'Status'
+        }).updateDisplayType({displayType: ui.FieldDisplayType.INLINE})
 
         ctx.response.writePage(form)
         
@@ -72,14 +129,20 @@ define(['N/record', 'N/ui/serverWidget', 'N/search', 'N/url'], function(record, 
                 ["custbody_status_ae", "IS", 1],
                 "AND",
                 ["mainline","is","T"],
+                "AND",
+                ["location", "IS", localidadeUser]
             ],
             columns: [ 
-                "internalId", "tranid"
+                "internalId", "tranid", "account", "subsidiary", "location", "custbody_status_ae"
             ]
         }).run().each(function(result){
             lista.push({
                 id: result.getValue('internalId'),
-                tranid: result.getValue('tranid')
+                tranid: result.getValue('tranid'),
+                account: result.getValue('account'),
+                subsidiary: result.getText('subsidiary') ,
+                location: result.getText('location'),
+                status: result.getText('custbody_status_ae')
             })
             return true
         })
@@ -103,6 +166,30 @@ define(['N/record', 'N/ui/serverWidget', 'N/search', 'N/url'], function(record, 
                 id: "custpage_planilhalink",
                 line: i,
                 value: output
+            })
+
+            sublist.setSublistValue({
+                id: "custpage_contaajuste",
+                line: i,
+                value: lista[i].account
+            })
+
+            sublist.setSublistValue({
+                id: "custpage_empresa",
+                line: i,
+                value: lista[i].subsidiary
+            })
+
+            sublist.setSublistValue({
+                id: "custpage_localidade",
+                line: i,
+                value: lista[i].location
+            })
+
+            sublist.setSublistValue({
+                id: "custpage_status",
+                line: i,
+                value: lista[i].status
             })
         }
 
