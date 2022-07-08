@@ -49,7 +49,9 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
                     "AND",
                     ["custrecord_rsc_status_cobranca_regua", "noneof", "3", "19", "25", "26"],
                     "AND",
-                    ["custrecord_sit_parcela_d_dt_vencimen", "within", sDataConsulta6m, sDataConsulta10d]
+                    ["custrecord_sit_parcela_d_dt_vencimen", "within", sDataConsulta6m, sDataConsulta10d],
+                  	"AND",
+                  	["internalid", "anyof", 610460]
                 ],
                 columns: [
                     search_1.default.createColumn({
@@ -82,7 +84,7 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
                 id: invoiceRec.getValue({ fieldId: 'entity' })
             }), quantidadeEmails = customer.getLineCount({ sublistId: 'contactroles' }), listaEnvioEmail = getListEmail(quantidadeEmails, customer), dadosEmail = {
                 author: runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_autor' }) ? runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_autor' }) : "",
-                recipients: listaEnvioEmail,
+                recipients: ['joao.silva@runsmart.cloud'],
                 modeloId: 0,
                 body: '',
                 subject: '',
@@ -162,9 +164,9 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
                         case 8:
                         case 9:
                             log_1.default.audit('Aviso reativo ', '4 a 9 dias');
-                            dadosEmail.modeloId = runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_modelo_de_cobraca' }) ? Number(runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_modelo_de_cobraca' })) : -1;
-                            dadosEmail.body = EMAIL_REATIVO.body;
-                            dadosEmail.subject = EMAIL_REATIVO.subject;
+                            //dadosEmail.modeloId = runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_modelo_de_cobraca' }) ? Number(runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_modelo_de_cobraca' })) : -1;
+                            //dadosEmail.body = EMAIL_REATIVO.body;
+                            //dadosEmail.subject = EMAIL_REATIVO.subject;
                             parcela.setValue({
                                 fieldId: 'custrecord_rsc_status_cobranca_regua',
                                 value: 23
@@ -179,11 +181,11 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
                             break;
                         case 10:
                             log_1.default.audit('Aviso reativo ', '10 dias');
-                            dadosEmail.modeloId = runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_aviso_supencao_email' }) ? Number(runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_aviso_supencao_email' })) : -2;
+                            dadosEmail.modeloId = runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_aviso_suspencao_email' }) ? Number(runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_aviso_suspencao_email' })) : -2;
                             var mergeResult = render_1.default.mergeEmail({
                                 templateId: dadosEmail.modeloId,
                                 transactionId: dadosEmail.faturaId,
-                                customRecord: { id: reqRes.id, type: 'customrecord_sit_parcela' }
+                                //customRecord: { id: reqRes.id, type: 'customrecord_sit_parcela' }
                             });
                             dadosEmail.body = mergeResult.body;
                             dadosEmail.body = dadosEmail.body;
@@ -202,7 +204,7 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
                             break;
                         case 20:
                             log_1.default.audit('Aviso reativo ', '20 dias');
-                            dadosEmail.modeloId = runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_modelo_suspensao' }) ? Number(runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_modelo_suspensao' })) : -3;
+                            dadosEmail.modeloId = runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_aviso_suspencao_email' }) ? Number(runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_modelo_suspensao' })) : -3;
                             mergeResult = render_1.default.mergeEmail({
                                 templateId: dadosEmail.modeloId,
                                 transactionId: dadosEmail.faturaId
@@ -363,7 +365,7 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
                 author: dadosEmail.author,
                 recipients: [dadosEmail.recipients],
                 //recipients: ['joao.silva@runsmart.cloud'], //TESTE - DEVE SER APAGADO
-                bcc: ['faturamento@intelipost.com.br', 'larissa.pereira@intelipost.com.br'],
+                //bcc: ['faturamento@intelipost.com.br', 'larissa.pereira@intelipost.com.br', 'selma.oliveira.interm@runsmart.cloud'],
                 subject: dadosEmail.subject,
                 body: dadosEmail.body,
                 relatedRecords: {

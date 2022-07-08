@@ -1,0 +1,18 @@
+Configurações para testar o script:
+- suitelet:
+	função "confereFuncionario":
+	- substituir o E-mail:"rafael.santos@runsmart.cloud" da linha 22 e 39 pelo do tester
+	- trocar o valor da variável "localidadeUser" para os seguintes IDs:
+		- 20 // miranda
+		- 24 // nações
+		- 27 // campus
+
+
+links: 
+- suitelet: https://5377678-sb1.app.netsuite.com/app/common/scripting/scriptrecord.nl?id=3129
+- Planilha de estoque 49 (miranda): https://5377678-sb1.app.netsuite.com/app/accounting/transactions/invwksht.nl?id=173794&whence=&cmid=1657131557193_12257
+- Planilha de estoque 41 (nações): https://5377678-sb1.app.netsuite.com/app/accounting/transactions/invwksht.nl?id=163040&whence=&cmid=1657132469452_13042
+- planilha de estoque 42 (campus): https://5377678-sb1.app.netsuite.com/app/accounting/transactions/invwksht.nl?id=163044&whence=&cmid=1657132592803_13094
+
+
+para refazer os testes é só mudar o status para "Aprovação do supervisor pendente"

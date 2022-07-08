@@ -51,7 +51,7 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
                     "AND",
                     ["custrecord_sit_parcela_d_dt_vencimen", "within", sDataConsulta6m, sDataConsulta10d],
                   	"AND",
-                  	["internalid", "anyof", 403195]
+                  	["internalid", "anyof", 543300]
                 ],
                 columns: [
                     search_1.default.createColumn({
@@ -84,7 +84,7 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
                 id: invoiceRec.getValue({ fieldId: 'entity' })
             }), quantidadeEmails = customer.getLineCount({ sublistId: 'contactroles' }), listaEnvioEmail = getListEmail(quantidadeEmails, customer), dadosEmail = {
                 author: runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_autor' }) ? runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_autor' }) : "",
-                recipients: ['joao.silva@runsmart.cloud'],
+                recipients: ['rafael.santos@runsmart.cloud'],
                 modeloId: 0,
                 body: '',
                 subject: '',
@@ -121,14 +121,14 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
                 dadosEmail.modeloId = runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_email_de_cobranca_preventiva' }) ? Number(runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_email_de_cobranca_preventiva' })) : 1;
                 dadosEmail.body = EMAIL_PREVENTIVO.body;
                 dadosEmail.subject = EMAIL_PREVENTIVO.subject;
-                parcela.setValue({
-                    fieldId: 'custrecord_rsc_status_cobranca_regua',
-                    value: 21
-                });
-                parcela.setValue({
-                    fieldId: 'custrecord_rsc_descricao_da_fatura_parce',
-                    value: 'E-mail Preventivo'
-                });
+                // parcela.setValue({
+                //     fieldId: 'custrecord_rsc_status_cobranca_regua',
+                //     value: 21
+                // });
+                // parcela.setValue({
+                //     fieldId: 'custrecord_rsc_descricao_da_fatura_parce',
+                //     value: 'E-mail Preventivo'
+                // });
                 parcela.save({
                     ignoreMandatoryFields: true
                 });
@@ -145,14 +145,14 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
                             dadosEmail.modeloId = runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_modelo_de_cobraca' }) ? Number(runtime_1.default.getCurrentScript().getParameter({ name: 'custscript_rsc_modelo_de_cobraca' })) : -1;
                             dadosEmail.body = EMAIL_REATIVO.body;
                             dadosEmail.subject = EMAIL_REATIVO.subject;
-                            // parcela.setValue({
-                            //     fieldId: 'custrecord_rsc_status_cobranca_regua',
-                            //     value: 22
-                            // });
-                            // parcela.setValue({
-                            //     fieldId: 'custrecord_rsc_descricao_da_fatura_parce',
-                            //     value: 'E-mail Cobrança'
-                            // });
+                            parcela.setValue({
+                                fieldId: 'custrecord_rsc_status_cobranca_regua',
+                                value: 22
+                            });
+                            parcela.setValue({
+                                fieldId: 'custrecord_rsc_descricao_da_fatura_parce',
+                                value: 'E-mail Cobrança'
+                            });
                             parcela.save({
                                 ignoreMandatoryFields: true
                             });
@@ -289,9 +289,15 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
                 "AND", 
                 ["mainline","is","T"]
             ],
-            columns: ['custbody_sit_transaction_t_nr_rps']
+            columns: [
+                search_1.default.createColumn({
+                    name: "custrecord_sit_retorno_nfe_t_notafiscal",
+                    join: "CUSTRECORD_SIT_RETORNO_NFE_L_FATURAID",
+                    label: "Numero Nota Fiscal (Gerado na Prefeitura)"
+                 })
+            ]
         }).run().each(function(result){
-            lista.push(result.getValue('custbody_sit_transaction_t_nr_rps'))
+            lista.push(result.getValue({name: 'custrecord_sit_retorno_nfe_t_notafiscal', join: "CUSTRECORD_SIT_RETORNO_NFE_L_FATURAID"}))
             return true
         })
         log.debug('>>>>>>>>>>>>>>>>', lista)
@@ -306,7 +312,9 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
 
 
         valor = Number(valor).toFixed(2);
-        var formatDate = strinfiedDate(new Date(data_de_vencimento)), body = "Ol\u00E1 prezado cliente, tudo bem? <br>\n        Para a sua comodidade, lembramos que sua fatura vencer\u00E1 em ".concat(formatDate, ", no valor de R$ ").concat(valor, ".<br>\n        <br>\n\n        Caso tenha alguma d\u00FAvida ou quiser saber sobre seus pr\u00F3ximos vencimentos, \u00E9 s\u00F3 entrar em contato com a gente pelo e-mail faturamento@intelipost.com.br ou telefone.\n        Conte sempre conosco! \n\n        <br>\n        <br>\n        Equipe de Faturamento Intelipost.<br>\n        +55 (11) 4210-2822\n\n        "), subject = "Intelipost - Lembrete de vencimento da sua fatura em ".concat(formatDate);
+        var formatDate = strinfiedDate(new Date(data_de_vencimento)), body = "Ol\u00E1 prezado cliente, tudo bem? <br>\n        Para a sua comodidade, lembramos que sua fatura vencer\u00E1 em ".concat(formatDate, ", no valor de R$ ").concat(valor, ", referente a nota fiscal ", notaFiscal, ".").concat("<br>\n        <br>\n\n        Caso tenha alguma d\u00FAvida ou quiser saber sobre seus pr\u00F3ximos vencimentos, \u00E9 s\u00F3 entrar em contato com a gente pelo e-mail faturamento@intelipost.com.br ou telefone.\n        Conte sempre conosco! \n\n        <br>\n        <br>\n        Equipe de Faturamento Intelipost.<br>\n        +55 (11) 4210-2822\n\n        "), subject = "Intelipost - Lembrete de vencimento da sua fatura em ".concat(formatDate);
+
+        log.emergency('bodyPreventivo', body)
         return { body: body, subject: subject };
     };
     var EmailReativo = function (data_de_vencimento, valor, dadosEmail) {
@@ -316,7 +324,8 @@ define(["require", "exports", "N/search", "N/email", "N/render", "N/runtime", "N
 
 
         valor = Number(valor).toFixed(2);
-        var formatDate = strinfiedDate(new Date(data_de_vencimento)), body = "Ol\u00E1, prezado cliente. <br>\n        <br>\n        N\u00F3s sabemos que imprevistos acontecem, n\u00E3o \u00E9 mesmo? \u00C9 por isso que estamos entrando em contato para avis\u00E1-lo que sua fatura venceu em ".concat(formatDate, ", no valor de R$ ").concat(valor, ".<br>\n        Para regularizar seu d\u00E9bito voc\u00EA pode utilizar o mesmo boleto encaminhado no momento do faturamento.<br>\n        <br>\n        Precisa de ajuda? Entre em contato atrav\u00E9s do nosso telefone ou mande um e-mail para faturamento@intelipost.com.br.<br>\n\n        <br>\n        Conte sempre conosco! <br>\n        Equipe de Faturamento Intelipost.<br>\n        +55 (11) 4210-2822\n        "), subject = "Intelipost - Sua fatura venceu em ".concat(formatDate);
+        var formatDate = strinfiedDate(new Date(data_de_vencimento)), body = "Ol\u00E1, prezado cliente. <br>\n        <br>\n        N\u00F3s sabemos que imprevistos acontecem, n\u00E3o \u00E9 mesmo? \u00C9 por isso que estamos entrando em contato para avis\u00E1-lo que sua fatura venceu em ".concat(formatDate, ", no valor de R$ ").concat(valor, ", referente a nota fiscal ", notaFiscal, ".").concat("<br>\n        Para regularizar seu d\u00E9bito voc\u00EA pode utilizar o mesmo boleto encaminhado no momento do faturamento.<br>\n        <br>\n        Precisa de ajuda? Entre em contato atrav\u00E9s do nosso telefone ou mande um e-mail para faturamento@intelipost.com.br.<br>\n\n        <br>\n        Conte sempre conosco! <br>\n        Equipe de Faturamento Intelipost.<br>\n        +55 (11) 4210-2822\n        "), subject = "Intelipost - Sua fatura venceu em ".concat(formatDate);
+        log.emergency('bodyReativo', body)
         return { body: body, subject: subject };
     };
 
